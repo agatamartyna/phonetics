@@ -2,7 +2,7 @@ samples = {
     'ziemia':'ʑɛmʲja',
     'siał': 'ɕaw',
     'podziało':'pɔdʑawɔ',
-    'wyziębiony':'vɨʑ ̃ɛ̃w bʲjɔnɨ',
+    'wyziębiony':'vɨʑɛmbʲjɔnɨ',
     'ciecierzyca': 'tɕɛtɕɛʐɨtsa',
     'nasiusiała': 'naɕuɕawa'
 }
