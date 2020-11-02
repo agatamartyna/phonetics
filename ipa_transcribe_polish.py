@@ -271,22 +271,7 @@ def transcribe(word):
         ):
             ph_word = ph_word[:i + 1] + 'j' + ph_word[i + 2:]
 
-    # Surface Palatalisation for CONS + 'j' + VOW
-    for i in range(len(ph_word)-2):
-        if (
-            ph_word[i] in non_pals and
-            ph_word[i + 1] == 'j' and
-            ph_word[i + 2] in ipa_vowels
-        ):
-            ph_word = ph_word[:i + 1] + PAL + ph_word[i + 1:]
 
-    # Surface Palatalisation for CONS + 'i'
-    for i in range(len(ph_word)-1):
-        if (
-            ph_word[i] in non_pals and
-            ph_word[i + 1] == 'i'
-        ):
-            ph_word = ph_word[:i + 1] + PAL + ph_word[i + 1:]
 
     # Final Devoicing
     for voiced in [key for key in voicing_dict.keys()]:
@@ -321,8 +306,28 @@ def transcribe(word):
             vless_item = voicing_dict[ph_word[i]]
             ph_word = ph_word[:i] + vless_item + ph_word[i + 1:]
 
-    return ph_word
+    # Surface Palatalisation for CONS + 'j' + VOW
+    i = 0
+    while i < len(ph_word):
+        if (
+                ph_word[i] in non_pals and
+                ph_word[i + 1] == 'j' and
+                ph_word[i + 2] in ipa_vowels
+        ):
+            ph_word = ph_word[:i + 1] + PAL + ph_word[i + 1:]
+        i = i + 1
 
+    # Surface Palatalisation for CONS + 'i'
+    i = 0
+    while i < len(ph_word):
+        if (
+                ph_word[i] in ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'l', 'r', 'm'] and
+                ph_word[i + 1] == 'i'
+        ):
+            ph_word = ph_word[:i + 1] + PAL + ph_word[i + 1:]
+        i = i +1
+
+    return ph_word
 
 if __name__ == '__main__':
     print(transcribe(input('Wpisz słowo: ')))
