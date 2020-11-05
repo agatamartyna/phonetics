@@ -4,7 +4,7 @@ samples = {
     'wywietrzcie':'vɨvʲjɛtʂtɕɛ',
     'babia': 'babʲja',
     'liliana': 'lʲilʲjana',
-    'pięknie': 'pʲj ̃ɛ̃w kɲɛ'
+    'pięknie': 'pʲjɛŋkɲɛ'
 }
 
 from  ipa_transcribe_polish import transcribe
