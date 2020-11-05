@@ -308,7 +308,7 @@ def transcribe(word):
 
     # Surface Palatalisation for CONS + 'j' + VOW
     i = 0
-    while i < len(ph_word):
+    while i < len(ph_word)-1:
         if (
                 ph_word[i] in non_pals and
                 ph_word[i + 1] == 'j' and
@@ -319,7 +319,7 @@ def transcribe(word):
 
     # Surface Palatalisation for CONS + 'i'
     i = 0
-    while i < len(ph_word):
+    while i < len(ph_word)-1:
         if (
                 ph_word[i] in ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'l', 'r', 'm'] and
                 ph_word[i + 1] == 'i'
