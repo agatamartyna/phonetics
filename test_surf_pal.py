@@ -10,7 +10,8 @@ samples = {
     'wiwisekcja': 'vʲivʲisɛktsja',
     'kitki': 'kʲitkʲi',
     'operetki': 'ɔpɛrɛtkʲi',
-    'kobitki':'kɔbʲitkʲi'
+    'papier':'papʲjɛr',
+    'kolie':'kɔlʲjɛ'
 }
 
 from  ipa_transcribe_polish import transcribe
