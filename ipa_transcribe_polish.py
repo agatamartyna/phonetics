@@ -1,8 +1,8 @@
 # sound inventory vowels
 OPEN_FRONT = 'a'
-OPEN_MID_ROUND_NAS_DYPH = ' \u0303\u0254\u0303w '
+OPEN_MID_ROUND_NAS_DYPH = '\u0303\u0254\u0303w'
 MID_OPEN_FRONT = '\u025B'
-MID_OPEN_FRONT_NAS_DYPH = ' \u0303\u025B\u0303w '
+MID_OPEN_FRONT_NAS_DYPH = '\u0303\u025B\u0303w'
 CLOSE_FRONT = '\u0069'
 MID_OPEN_BACK_ROUND = '\u0254'
 CLOSE_BACK_ROUND = 'u'
@@ -10,10 +10,10 @@ CLOSE_CENT = '\u0268'
 TILDE = '\u0303'
 SPACE = ' '
 
-#palatalised
+# palatalised
 PAL = '\u02B2'
 
-#sound inventory consonants
+# sound inventory consonants
 VD_BILAB_STOP = 'b'
 VS_ALV_AFF = 'ts'
 VS_PAL_AFF = 't\u0255'
@@ -31,7 +31,7 @@ VS_VEL_STOP = 'k'
 ALV_LAT_APPROX = 'l'
 BILAB_APPROX = 'w'
 BILAB_NAS = 'm'
-ALV_NAS = 'n'
+DENT_NAS = 'n'
 PAL_NAS = '\u0272'
 VS_BILAB_STOP = 'p'
 ALV_TRILL = 'r'
@@ -68,7 +68,7 @@ ipa_dict = {
     'l': ALV_LAT_APPROX,
     'ł': BILAB_APPROX,
     'm': BILAB_NAS,
-    'n': ALV_NAS,
+    'n': DENT_NAS,
     'ń': PAL_NAS,
     'o': MID_OPEN_BACK_ROUND,
     'ó': CLOSE_BACK_ROUND,
@@ -129,41 +129,41 @@ non_cont_obstr = {
 # continuant obsturents
 cont_obstr = ['w', 'f', 'z', 's', 'sz', 'ż', 'rz', 'ś', 'si', 'ź', 'zi', 'h', 'ch']
 
-# cluster simplify
+# simplify cluster
 clusters_dict = {
-    VS_ALV_AFF+'i': VS_PAL_AFF+'i',
-    'si': VS_PAL_FRIC+'i',
-    'dzi': VD_PAL_AFF+'i',
-    'zi': VD_PAL_FRIC+'i',
-    VS_ALV_AFF +'x': 'x',
-    'rz': VD_POSTALV_FRIC,
-    'sz': VS_POSTALV_FRIC,
-    VS_ALV_AFF+'z': 't'+VS_POSTALV_FRIC,
-    'ni': PAL_NAS+'i',
-    'dz': VD_ALV_AFF,
-    'd'+VD_PAL_FRIC: VD_PAL_AFF
+    VS_ALV_AFF + CLOSE_FRONT: VS_PAL_AFF + CLOSE_FRONT,
+    VS_ALV_FRIC + CLOSE_FRONT: VS_PAL_FRIC + CLOSE_FRONT,
+    VD_DENT_STOP + VD_ALV_FRIC + CLOSE_FRONT: VD_PAL_AFF + CLOSE_FRONT,
+    VD_ALV_FRIC + CLOSE_FRONT: VD_PAL_FRIC + CLOSE_FRONT,
+    VS_ALV_AFF + VS_VEL_FRIC: VS_VEL_FRIC,
+    ALV_TRILL + VD_ALV_FRIC: VD_POSTALV_FRIC,
+    VS_ALV_FRIC + VD_ALV_FRIC: VS_POSTALV_FRIC,
+    VS_ALV_AFF + VD_ALV_FRIC: VS_DENT_STOP+VS_POSTALV_FRIC,
+    DENT_NAS + CLOSE_FRONT: PAL_NAS + CLOSE_FRONT,
+    VD_DENT_STOP + VD_ALV_FRIC: VD_ALV_AFF,
+    VD_DENT_STOP + VD_PAL_FRIC: VD_PAL_AFF
 }
 
-# słownik spalatalizowanych (miękich) sekwencji parami:zapis jeden do jednego - i jak to powino wyglądać
+# palatalised sounds with multiple character notation in pairs one-to-one transcription - sound
 soft_clusters_dict = {
-    '\u02a6i': '\u02a8i',
-    'si': '\u0255i',
-    'dzi': '\u02A5i',
-    'zi': '\u0291i',
-    'ni': '\u0272i'
+    VS_ALV_AFF + CLOSE_FRONT: VS_PAL_AFF + CLOSE_FRONT,
+    VS_ALV_FRIC + CLOSE_FRONT: VS_PAL_FRIC + CLOSE_FRONT,
+    VD_DENT_STOP + VD_ALV_FRIC + CLOSE_FRONT: VD_POSTALV_AFF + CLOSE_FRONT,
+    VD_ALV_AFF + CLOSE_FRONT: VD_PAL_FRIC + CLOSE_FRONT,
+    DENT_NAS + CLOSE_FRONT: PAL_NAS + CLOSE_FRONT
 }
 
-# słownik sybilantów (takich co syczą)  parami bezdźwięczny: - dźwięczny
+# sybilants arranged into pairs voiceless - voiced
 sibilants_dict = {
-    '\u02a6': '\u02A3',
-    '\u02a8': '\u02A5',
-    't\u0282': 'd\u0290',
-    's': 'z',
-    '\u0255': '\u0291',
-    '\u0282': '\u0290'
+    VS_ALV_AFF: VD_ALV_AFF,
+    VS_PAL_AFF: VD_PAL_AFF,
+    VS_POSTALV_AFF: VD_POSTALV_AFF,
+    VS_ALV_FRIC: VD_ALV_FRIC,
+    VS_PAL_FRIC: VD_PAL_FRIC,
+    VS_POSTALV_FRIC: VD_POSTALV_FRIC
 }
 
-# spalatalizowane (miękkie)
+# palatals
 pals = [
     VS_PAL_AFF,
     VD_PAL_AFF,
@@ -172,8 +172,8 @@ pals = [
     PAL_NAS
 ]
 
-# niespalatalizowane
-non_pals = ['b', 'd', 'f', '\u0261', 'x', 'k', 'l', 'm', 'p', 'r', 't', 'v']
+# non-palatals
+non_pals = [VS_BILAB_STOP, VD_BILAB_STOP, VS_DENT_STOP, VD_DENT_STOP, VS_LABDENT_FRIC, VD_LABDENT_FRIC, '\u0261', 'x', 'k', 'l', 'm', 'r',]
 
 
 def transcribe(word):
@@ -213,11 +213,9 @@ def transcribe(word):
                 ph_word2 = ''
                 for letter in word[i+1:]:
                     ph_word2 += str(ipa_dict[letter])
-                if word[i] == 'ą':
-                    denasalised_item = MID_OPEN_BACK_ROUND
-                elif word[i] == 'ę':
+                if word[i] == 'ę':
                     denasalised_item = MID_OPEN_FRONT
-                ph_word = ph_word1 + denasalised_item + ph_word2   # this block works fine
+                    ph_word = ph_word1 + denasalised_item + ph_word2   # this block works fine
             else:
                 if not (
                     word[i + 1] in cont_obstr or
@@ -236,10 +234,9 @@ def transcribe(word):
                     ph_word = ph_word1 + denasalised_item + ph_word2
 
     # character cluster transcription
-    for cluster in soft_clusters_dict:
-        for cluster in clusters_dict:
-            if cluster in ph_word:
-                ph_word = ph_word.replace(cluster, clusters_dict[cluster])
+    for cluster in clusters_dict:
+        if cluster in ph_word:
+            ph_word = ph_word.replace(cluster, clusters_dict[cluster])
 
     # Nasal Assimilation
     for i in range(len(ph_word) - 2):
@@ -271,8 +268,6 @@ def transcribe(word):
         ):
             ph_word = ph_word[:i + 1] + 'j' + ph_word[i + 2:]
 
-
-
     # Final Devoicing
     for voiced in [key for key in voicing_dict.keys()]:
         if ph_word[-2:] == voiced:
@@ -299,7 +294,6 @@ def transcribe(word):
             vless_item = voicing_dict[ph_word[i + 1]]
             ph_word = ph_word[:i + 1] + vless_item + ph_word[i + 2:]
 
-
     # Regressive Devoicing
     for i in range(len(ph_word) - 2):
         if ph_word[i] in voicing_dict and ph_word[i + 1] in voi_dict_rev:
@@ -325,9 +319,10 @@ def transcribe(word):
                 ph_word[i + 1] == 'i'
         ):
             ph_word = ph_word[:i + 1] + PAL + ph_word[i + 1:]
-        i = i +1
+        i = i + 1
 
     return ph_word
+
 
 if __name__ == '__main__':
     print(transcribe(input('Wpisz słowo: ')))
