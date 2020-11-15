@@ -1,6 +1,6 @@
 samples = {
-    'jakże': 'jagʐɛ',
-    'wszakżeż': 'fʂagʐɛʂ',
+    'jakże': 'jaɡʐɛ',
+    'wszakżeż': 'fʂaɡʐɛʂ',
     'paśże': 'paʑʐɛ'
 }
 
