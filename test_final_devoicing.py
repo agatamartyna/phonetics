@@ -1,7 +1,7 @@
 samples = {
     'standard': 'standart',
-    'wąż': 'v ̃ɔ̃w ʂ',
-    'bug': 'buk'
+    'wąż': 'ṽɔ̃wʂ',
+
 }
 
 from  ipa_transcribe_polish import transcribe
