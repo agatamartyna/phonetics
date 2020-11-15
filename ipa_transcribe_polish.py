@@ -215,7 +215,14 @@ def transcribe(word):
                     ph_word2 += str(ipa_dict[letter])
                 if word[i] == 'ę':
                     denasalised_item = MID_OPEN_FRONT
-                    ph_word = ph_word1 + denasalised_item + ph_word2   # this block works fine
+                    ph_word = ph_word1 + denasalised_item + ph_word2
+                elif word[i] == 'ą':
+                    if i != len(word) - 1:
+                        denasalised_item = MID_OPEN_BACK_ROUND
+                        ph_word = ph_word1 + denasalised_item + ph_word2
+                    else:
+                        ph_word = ph_word1 + OPEN_MID_ROUND_NAS_DYPH
+
             else:
                 if not (
                     word[i + 1] in cont_obstr or
@@ -323,6 +330,27 @@ def transcribe(word):
 
     return ph_word
 
-
 if __name__ == '__main__':
-    print(transcribe(input('Wpisz słowo: ')))
+    word = input("Podaj słowo: ")
+    word = word.lower()
+    flag = 0
+    for item in word:
+        if item in 'aąbcćdeęfghijklłmnńoóprsśtuwyzżź':
+            pass
+        else:
+            flag = 1
+            break
+    if flag == 0:
+        print(transcribe(word))
+    else:
+        print("Ciąg zawiera znaki nienależące do polskiego alfabetu.")
+
+
+
+
+
+
+
+
+
+
