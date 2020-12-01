@@ -6,17 +6,18 @@ class TestProcesses(unittest.TestCase):
 
     def test_final_devoicing(self):
         self.assertEqual(transcribe('standard'), 'standart')
-        self.assertEqual(transcribe('wąż'), 'ṽɔ̃wʂ')
+        self.assertEqual(transcribe('wąż'), 'vɔ̃w̃ʂ')
         self.assertEqual(transcribe('bug'), 'buk')
 
     def test_denasalise_nasal_assimilation(self):
         self.assertEqual(transcribe('mąka'), 'mɔŋka')
-        self.assertEqual(transcribe('gęsty'), 'ɡ̃ɛ̃wstɨ')
+        self.assertEqual(transcribe('gęsty'), 'ɡɛ̃w̃stɨ')
         self.assertEqual(transcribe('rąbać'), 'rɔmbatɕ')
         self.assertEqual(transcribe('podjęli'), 'pɔdʲjɛlʲi')
+        self.assertEqual(transcribe('stanął'), 'stanɔw')
         self.assertEqual(transcribe('pieniądz'), 'pʲjɛɲɔɳts')
         self.assertEqual(transcribe('pędzić'), 'pɛɲdʑitɕ')
-        self.assertEqual(transcribe('pójdą'), 'pujd̃ɔ̃w')
+        self.assertEqual(transcribe('pójdą'), 'pujdɔ̃w̃')
         self.assertEqual(transcribe('kręty'), 'krɛntɨ')
         self.assertEqual(transcribe('pójdę'), 'pujdɛ')
 
