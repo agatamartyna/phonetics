@@ -1,12 +1,13 @@
 # sound inventory vowels
 OPEN_FRONT = 'a'
-OPEN_MID_ROUND_NAS_DYPH = '\u0303\u0254\u0303w'
+CLOSE_CENT = '\u0268'
+
+OPEN_MID_ROUND_NAS_DYPH = '\u0254\u0303w\u0303'
 MID_OPEN_FRONT = '\u025B'
-MID_OPEN_FRONT_NAS_DYPH = '\u0303\u025B\u0303w'
+MID_OPEN_FRONT_NAS_DYPH = '\u025B\u0303w\u0303'
 CLOSE_FRONT = '\u0069'
 MID_OPEN_BACK_ROUND = '\u0254'
 CLOSE_BACK_ROUND = 'u'
-CLOSE_CENT = '\u0268'
 TILDE = '\u0303'
 SPACE = ' '
 
@@ -126,7 +127,7 @@ non_cont_obstr = {
     VD_VEL_STOP: VS_VEL_STOP,
 }
 
-# continuant obsturents
+# continuant obstruents
 cont_obstr = ['w', 'f', 'z', 's', 'sz', 'ż', 'rz', 'ś', 'si', 'ź', 'zi', 'h', 'ch']
 
 # simplify cluster
@@ -153,7 +154,7 @@ soft_clusters_dict = {
     DENT_NAS + CLOSE_FRONT: PAL_NAS + CLOSE_FRONT
 }
 
-# sybilants arranged into pairs voiceless - voiced
+# sibilants arranged into pairs voiceless - voiced
 sibilants_dict = {
     VS_ALV_AFF: VD_ALV_AFF,
     VS_PAL_AFF: VD_PAL_AFF,
