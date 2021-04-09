@@ -235,6 +235,7 @@ def transcribe(word):
                     ph_word2 = ''
                     for letter in word[i + 1:]:
                         ph_word2 += str(ipa_dict[letter])
+                    denasalised_item = ''
                     if word[i] == 'ę':
                         denasalised_item = MID_OPEN_FRONT + 'n'
                     elif word[i] == 'ą':

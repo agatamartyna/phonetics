@@ -3,9 +3,9 @@ from ipa_transcribe_polish import transcribe
 
 # sound inventory vowels
 OPEN_FRONT = 'a'
-OPEN_MID_ROUND_NAS_DYPH = '\u0303\u0254\u0303w'
+OPEN_MID_ROUND_NAS_DYPH = '\u0254\u0303w\u0303'
 MID_OPEN_FRONT = '\u025B'
-MID_OPEN_FRONT_NAS_DYPH = '\u0303\u025B\u0303w'
+MID_OPEN_FRONT_NAS_DYPH = '\u025B\u0303w\u0303'
 CLOSE_FRONT = '\u0069'
 MID_OPEN_BACK_ROUND = '\u0254'
 CLOSE_BACK_ROUND = 'u'
@@ -253,7 +253,7 @@ def transcribe_words_Warsaw(text):
         elif word[-1] in 'cćfhkpsśt':
             ph_dict[ph_word] = word[-1]
 
-    # phonological processes on word boundaries: pre-vocalic voicing
+    # phonological processes on word boundaries: pre-vocalic and pre-voiced voicing
     for i in range(len(ph_words)-1):
         if (
             ph_words[i][-2:] in voi_dict_rev and
@@ -284,7 +284,7 @@ if __name__ == '__main__':
     accent = input("Wybierz akcent, w którym zostanie przetranskrybowany tekst: \n"
                    "1 oznacza akcent środkowopolski \n" 
                    "2 oznacza akcent południowopolski \n"
-                   "Twój wybór to: ")
+                   "Wybierz 1 lub 2: ")
 
     while accent not in ['1', '2'] and len(accent) != 1:
         print("Wpisz dokładnie jedną z dwóch cyfr 1 lub 2.")
