@@ -1,5 +1,5 @@
 import unittest
-from ipa_transcribe_polish import transcribe
+from phonetics.ipa_transcribe_polish import transcribe
 
 
 class TestProcesses(unittest.TestCase):

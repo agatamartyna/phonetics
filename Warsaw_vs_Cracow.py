@@ -1,5 +1,6 @@
-from string import punctuation
-from ipa_transcribe_polish import transcribe
+import re
+import string
+from phonetics.ipa_transcribe_polish import transcribe
 
 # sound inventory vowels
 OPEN_FRONT = 'a'
@@ -190,28 +191,145 @@ non_pals = [
 vocs = [PAL_APPROX, BILAB_APPROX, ALV_LAT_APPROX, ALV_TRILL, DENT_NAS, BILAB_NAS, PAL_NAS]
 
 
-def transcribe_words_Cracow(text):
+def transcribe_text_Cracow(text):
 
-    # transcribe words separately and keep the original punctuation
-    words = text.split(' ')
+    # lowercase all letters
+    text = text.lower()
+
+    # extract alphabetic substrings
+    words = re.findall(r'[a-ząćęłńóśźż]+', text)
+
+    # phonemic transcription of words taken individually (regional processes not applied)
     ph_words = []
-    ph_dict = {}
-    for word in words:
-        ph_word = ''
-        if word[-1].isalpha():
-            word = word.lower()
-            ph_word = transcribe(word)
-            ph_words += [ph_word]
-            if word[-2:] in ['cz', 'ch', 'sz']:
-                ph_dict[ph_word] = word[-2:]
-            elif word[-1] in 'cćfhkpsśt':
-                ph_dict[ph_word] = word[-1]
+    if words:
+        for word in words:
+            ph_words.append(transcribe(word))
+
+    # pre-vocalic voicing and pre-voiced-obstruent voicing
+    for i in range(len(ph_words) - 1):
+        if (
+                ph_words[i][-2:] in voi_dict_rev and
+                (ph_words[i + 1][0] in vocs or
+                 ph_words[i + 1][0] in voicing_dict or
+                ph_words[i + 1][0] in ipa_vowels)
+        ):
+            ph_words[i] = (ph_words[i][:-2]) + (voi_dict_rev[(ph_words[i][-2:])])
+        elif (
+                (ph_words[i][-1]) in voi_dict_rev and
+                (ph_words[i + 1][0] in vocs or ph_words[i + 1][0] in voicing_dict or
+                ph_words[i + 1][0] in ipa_vowels)
+        ):
+            ph_words[i] = (ph_words[i][:-1]) + (voi_dict_rev[(ph_words[i][-1])])
+
+    # extract non-alphabetic substrings
+    non_words = re.findall(r'[^a-ząćęłńóśźż]+', text)
+
+
+    # put transcriptions of alphabetic strings and non-alphabetic substrings back together
+    res = []
+    maxi = max([len(ph_words), len(non_words)])
+    if maxi == len(ph_words) and len(ph_words) != len(non_words):
+        for i in range(len(ph_words)-1):
+            res.append(ph_words[i])
+            res.append(non_words[i])
+        res.append(ph_words[-1])
+    elif len(ph_words) == len(non_words):
+        if text[0].isalpha():
+            for i in range(len(ph_words)):
+                res.append(ph_words[i])
+                res.append(non_words[i])
         else:
-            punctu = word[-1]
-            word = word[:-1]
-            word = word.lower()
-            ph_word = transcribe(word) + punctu
-            ph_words += [ph_word]
+            for i in range(len(ph_words)):
+                res.append(non_words[i])
+                res.append(ph_words[i])
+    elif maxi == len(non_words) and len(ph_words) != len(non_words):
+        for i in range(len(non_words)-1):
+            res.append(non_words[i])
+            res.append(ph_words[i])
+        res.append(non_words[-1])
+
+    result = ''.join(res)
+
+    return result
+
+def transcribe_text_Warsaw(text):
+
+    # lowercase all letters
+    text = text.lower()
+
+    # extract alphabetic substrings
+    words = re.findall(r'[a-ząćęłńóśźż]+', text)
+
+    # phonemic transcription of words taken individually (regional processes not applied)
+    ph_words = []
+    if words:
+        for word in words:
+            ph_words.append(transcribe(word))
+
+
+    # pre-voiced-obstruent voicing
+    for i in range(len(ph_words) - 1):
+        if (
+                ph_words[i][-2:] in voi_dict_rev and
+                ph_words[i + 1][0] in voicing_dict
+        ):
+            ph_words[i] = (ph_words[i][:-2]) + (voi_dict_rev[(ph_words[i][-2:])])
+        elif (
+                (ph_words[i][-1]) in voi_dict_rev and
+                ph_words[i + 1][0] in voicing_dict
+        ):
+            ph_words[i] = (ph_words[i][:-1]) + (voi_dict_rev[(ph_words[i][-1])])
+
+    # extract non-alphabetic substrings
+    non_words = re.findall(r'[^a-ząćęłńóśźż]+', text)
+
+
+    # put transcriptions of alphabetic strings and non-alphabetic substrings back together
+    res = []
+    maxi = max([len(ph_words), len(non_words)])
+    if maxi == len(ph_words) and len(ph_words) != len(non_words):
+        for i in range(len(ph_words)-1):
+            res.append(ph_words[i])
+            res.append(non_words[i])
+        res.append(ph_words[-1])
+    elif len(ph_words) == len(non_words):
+        if text[0].isalpha():
+            for i in range(len(ph_words)):
+                res.append(ph_words[i])
+                res.append(non_words[i])
+        else:
+            for i in range(len(ph_words)):
+                res.append(non_words[i])
+                res.append(ph_words[i])
+    elif maxi == len(non_words) and len(ph_words) != len(non_words):
+        for i in range(len(non_words)-1):
+            res.append(non_words[i])
+            res.append(ph_words[i])
+        res.append(non_words[-1])
+
+    result = ''.join(res)
+
+    return result
+
+
+if __name__ == '__main__':
+    accent = input("Wybierz akcent, w którym zostanie przetranskrybowany tekst: \n"
+                   "1 oznacza akcent środkowopolski \n" 
+                   "2 oznacza akcent południowopolski \n"
+                   "Wybierz 1 lub 2: ")
+
+    while accent not in ['1', '2'] and len(accent) != 1:
+        print("Wpisz dokładnie jedną z dwóch cyfr 1 lub 2.")
+        accent = input("Twój wybór to: ")
+
+    text = input("Wpisz tekst: ")
+
+    if accent == '1':
+        print(transcribe_text_Warsaw(text))
+    elif accent == '2':
+        print(transcribe_text_Cracow(text))
+
+"""
 
     # phonological processes on word boundaries: pre-vocalic voicing
     for i in range(len(ph_words)-1):
@@ -232,8 +350,72 @@ def transcribe_words_Cracow(text):
 
 def transcribe_words_Warsaw(text):
 
-    # transcribe words separately and keep the original punctuation
-    words = text.split(' ')
+    
+    for word in words:
+        ph_word = ''
+        if word[-1].isalpha():
+            word = word.lower()
+            ph_word = transcribe(word)
+            ph_words += [ph_word]
+        else:
+            punctu = word[-1]
+            word = word[:-1]
+            word = word.lower()
+            ph_word = transcribe(word) + punctu
+            ph_words += [ph_word]
+        if word[-2:] in ['ch', 'cz', 'sz']:
+            ph_dict[ph_word] = word[-2:]
+        elif word[-1] in 'cćfhkpsśt':
+            ph_dict[ph_word] = word[-1]
+
+    # phonological processes on word boundaries: pre-vocalic and pre-voiced voicing
+    for i in range(len(ph_words)-1):
+        if (
+            ph_words[i][-2:] in voi_dict_rev and
+            ph_words[i] in ph_dict and
+            transcribe(ph_dict[ph_words[i]]) in voicing_dict and
+            (ph_words[i + 1][0] in vocs or ph_words[i + 1][0] in voicing_dict or ph_words[i][-1] in ipa_vowels)
+        ):
+            ph_words[i] = (ph_words[i][:-2]) + (voi_dict_rev[(ph_words[i][-2:])])
+        elif (
+            ph_words[i][-1] in voi_dict_rev and
+            ph_words[i] in ph_dict and
+            transcribe(ph_dict[ph_words[i]]) in voicing_dict and
+            (ph_words[i+1][0] in vocs or ph_words[i+1][0] in voicing_dict or ph_words[i][-1] in ipa_vowels)
+        ):
+            ph_words[i] = (ph_words[i][:-1]) + (voi_dict_rev[(ph_words[i][-1])])
+        elif (
+            ph_words[i][-1] in voi_dict_rev and
+            ph_words[i + 1][0] in voicing_dict
+        ):
+            ph_words[i] = (ph_words[i][:-1]) + (voi_dict_rev[(ph_words[i][-1])])
+
+    ph_text = ' '.join(ph_words)
+
+    return ph_text
+
+
+
+
+"""
+
+"""
+This is how we split into words form a silly input
+
+s = "1234agata i  . włodek...."
+res = re.sub('['+string.punctuation+']', '', s).split()
+print(res)
+['1234agata', 'i', 'włodek']
+string.punctuation
+'!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
+string.punctuation += '1234567890'
+res = re.sub('['+string.punctuation+']', '', s).split()
+print(res)
+['agata', 'i', 'włodek']
+
+words = text.split(' ')
+    string.punctuation += '1234567890'
+    result = re.sub('[' + string.punctuation + ']', '', s).split()
     ph_words = []
     ph_dict = {}
     for word in words:
@@ -279,28 +461,7 @@ def transcribe_words_Warsaw(text):
 
     return ph_text
 
-
-if __name__ == '__main__':
-    accent = input("Wybierz akcent, w którym zostanie przetranskrybowany tekst: \n"
-                   "1 oznacza akcent środkowopolski \n" 
-                   "2 oznacza akcent południowopolski \n"
-                   "Wybierz 1 lub 2: ")
-
-    while accent not in ['1', '2'] and len(accent) != 1:
-        print("Wpisz dokładnie jedną z dwóch cyfr 1 lub 2.")
-        accent = input("Twój wybór to: ")
-
-    text = input("Wpisz tekst: ")
-
-    if accent == '1':
-        print(transcribe_words_Warsaw(text))
-    elif accent == '2':
-        print(transcribe_words_Cracow(text))
-
-
-
-
-
+"""
 
 
 

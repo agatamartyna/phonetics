@@ -109,22 +109,6 @@ def transcribe(word):
                 break
 
 
-    # Progressive Voicing Morphological Conditioning
-    for i in range(len(word) - 1):
-        if (
-                word[i:i + 2] == 'że' and
-                word[i - 1].place = "voiceless"
-        ):
-            ph_word_1 = ''
-            for letter in word[:i - 1]:
-                ph_word_1 += str(ipa_dict[letter])
-            ph_word2 = ''
-            for letter in word[i:]:
-                ph_word2 += str(ipa_dict[letter])
-            vs_item = ipa_dict[word[i - 1]]
-            vd_item = voi_dict_rev[vs_item]
-            ph_word = ph_word1 + vd_item + ph_word2
-
     return ph_word
 
 if __name__ == "__main__":
